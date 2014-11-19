@@ -1,0 +1,70 @@
+<%- model_class = Discussion -%>
+
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
+
+                <dl class="dl-horizontal">
+                  <div class = "panel-heading-padding">
+                      <strong>
+                      <%= model_class.human_attribute_name(:title) %>
+                      :</strong>
+                  </div>
+                  
+                  <div class="jumbotron">
+                    <dd><%= @discussion.title %></dd>
+                  </div>
+
+                </dl>
+
+
+<div class="row">
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <% @discussion.comments.each do |comment| %>
+
+          <div class="field">
+              <h4>Comment:</h4>
+              <%= comment.body %>
+      
+          </div>
+          <% end %>
+    <%= link_to t('.back', :default => t("helpers.links.back")),
+                  discussions_path, :class => 'btn btn-default'  %>
+    <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                  edit_discussion_path(@discussion), :class => 'btn btn-default' %>
+    <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                  discussion_path(@discussion),
+                  :method => 'delete',
+                  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                  :class => 'btn btn-danger' %>
+
+    </div>
+    </div>
+  </div>  
+
+
+<div class="row">
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+            <%= form_for([@discussion, @discussion.comments.build]) do |f| %>
+              <%= fields_for :comments, @discussion.comments do |comments_fields| %>
+              <div class="field">
+                <%= f.label :body, :class => 'control-label' %>
+                <%= f.text_area :body, :class => 'form-control' %>
+              </div>
+             <% end %>  
+              <div class="actions">
+                <%= f.submit class: 'btn btn-success' %>
+              </div>
+
+            <% end %>
+ 
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+

@@ -1,0 +1,43 @@
+
+<%= form_for @discussion, :html => { :class => "form-horizontal discussion" } do |f| %>
+    <% if @discussion.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@discussion.errors.count, "error") %> prohibited this discussion from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @discussion.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :title, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :title, :class => 'form-control' %>
+    </div>
+    <%= error_span(@discussion[:title]) %>
+  </div>
+
+  <%# Removed url option and added = so that form is rendered %>
+
+  <%= form_for(@comment) do |f| %>
+
+  <div class="field">
+    <%= f.label :body, :class => 'control-label' %>
+    <%= f.text_area :body, :class => 'form-control' %>
+  </div>
+<%= f.submit class: 'btn btn-success' %>
+
+  <% end %>
+ 
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+            discussions_path, :class => 'btn btn-default' %>
+
+
+
+<% end %>
